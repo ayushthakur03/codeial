@@ -5,3 +5,7 @@ module.exports.profile= function(req,res){
 module.exports.like= function(req,res){
     res.send('<h1>Like in users </h1>');
 }
+
+module.exports.default= function(req,res){
+    res.send('<h1>Users biatchhh </h1>');
+}
