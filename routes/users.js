@@ -10,5 +10,6 @@ router.get('/profile',userController.profile);
 router.get('/like',userController.like);
 router.get('/sign_in',userController.signin);
 router.get('/sign_up',userController.sign_up);
+router.post('/create',userController.create);
 
 module.exports=router;
