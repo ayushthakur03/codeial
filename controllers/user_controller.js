@@ -3,7 +3,9 @@ const User= require('../models/user');
 
 
 module.exports.profile= function(req,res){
-    res.send('<h1>Profile in users </h1>');
+    return res.render('profile',{
+        title:'Profile'
+});
 }
 
 module.exports.like= function(req,res){
@@ -62,5 +64,11 @@ module.exports.create= function(req,res)
 module.exports.createSession= function(req,res)
 {
     //later
+    return res.redirect('/');
+}
+
+module.exports.endSession= function(req,res)
+{
+    req.logout();
     return res.redirect('/');
 }
