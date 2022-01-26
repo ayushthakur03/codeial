@@ -1,11 +1,21 @@
 const User= require('../models/user');
+const Post= require('../models/post');
 
 
 
 module.exports.profile= function(req,res){
-    return res.render('profile',{
-        title:'Profile'
-});
+    User.findById(req.params.id,function(err,users){
+        if(err)
+        {
+            console.log('error in finding user for profile');
+        }
+        console.log(users);
+        return res.render('profile',{
+            title:'Profile',
+            curr_user:users
+    });
+    });
+
 }
 
 module.exports.like= function(req,res){
@@ -72,3 +82,26 @@ module.exports.endSession= function(req,res)
     req.logout();
     return res.redirect('/');
 }
+
+module.exports.post= function(req,res)
+{
+    console.log(req.body);
+    Post.create({
+        content: req.body.post_data
+    },
+    function(err,post)
+    {
+        if(err)
+        {
+            console.log('error in creating post');
+        }
+        return res.redirect('/');
+
+    });
+    
+}
+
+// module.exports.update= function(req,res)
+// {
+//     if(req.params.id==)
+// }

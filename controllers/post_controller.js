@@ -1,7 +1,58 @@
-module.exports.postzz= function(req,res){
-    res.send('<h1>Like my post guyzzzz</h1>');
+const Post= require('../models/post');
+const Comment= require('../models/comment');
+const passport= require('passport');
+
+module.exports.create= function(req,res)
+{
+    console.log('enetered create post section');
+   
+        Post.create({
+            content: req.body.post_data,
+            user:req.user._id
+        },
+        function(err,post)
+        {
+            if(err)
+            {
+                console.log('error in creating post');
+            }
+            console.log('created');
+            return res.redirect('back');
+    
+        });
 }
 
-module.exports.comment= function(req,res){
-    res.send('<h1>Comment my post guyzzzz</h1>');
+module.exports.destroy= function(req,res)
+{
+    Post.findById(req.params.id, function(err,post)
+    {
+        if(err)
+        {
+            console.log('error in finding post');
+            return;
+        }
+
+        if(post.user==req.user.id)
+        {
+            post.remove();
+
+            Comment.deleteMany({post:req.params.id},function(err)
+            {
+                if(err)
+                {
+                    console.log('error in deleting comment from post');
+                    return;
+                }
+
+                return res.redirect('back');
+            })
+        }
+        else
+        {
+            return res.redirect('back');
+        }
+    }
+
+    );
 }
+

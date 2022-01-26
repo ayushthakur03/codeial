@@ -1,7 +1,27 @@
 <body>
 <h2>Profile, Codieal</h2>
 
-<p><%= user.name %></p>
-<p><%= user.email %></p>
+
+
+<% if(user.id== curr_user.id){%>
+    <form action="/user/update/<%= curr_user.id%>" method="POST">
+        <div>
+          <input type="email" placeholder="Email" name="email" value="<%= curr_user.email %>" required>
+          </div>
+          <div>
+          <div>
+            <input type="text" placeholder="Name" name="name" value="<%= curr_user.name %>" required>
+            </div>
+
+
+          <button type="submit">Update</button>
+
+
+    </form>
+<%}else{%>
+    <p><%= curr_user.name %></p>
+    <p><%= curr_user.email %></p> 
+<%} %>
+
 
 </body>
