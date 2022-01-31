@@ -1,11 +1,13 @@
 
 <link rel="stylesheet" href="/css/user.css">
+<link rel="stylesheet" href="/css/home.css">
+
 <body>
-      <h1>Codeial, <%=title%> </h1>   
+      <h1> <%=title%> </h1>   
 </body>
 
-
-<section>
+<div id="home-container">
+<section id="feed-posts"> 
       <h3>Posts</h3>
       <% if(locals.user){ %>
             <form action="/post/create" id="post-form" method="POST">
@@ -14,22 +16,22 @@
             </form>
       <%}  %>
 
- 
+      <div>
+            <ul>
+            <% for(post of posts){ %>
+                  <%- include('_post') %>
+           <% } %>
+        
+            </ul>
+      </div>
 
 </section>
 
 
 
-<div id="post-container">
-      <ul>
-      <% for(post of posts){ %>
-            <%- include('_post') %>
-     <% } %>
-  
-      </ul>
-</div>
 
-<section id="users-container">
+
+<section id="friends-container">
       <h4>Friends</h4>
 <%for(u of all_users){%>
 <p>
@@ -38,3 +40,4 @@
 
 <%}%>
 </section>
+</div>
