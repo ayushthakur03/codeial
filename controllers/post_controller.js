@@ -63,9 +63,10 @@ module.exports.create= async function(req,res)
             content: req.body.post_data,
             user:req.user._id
         });
+        req.flash('success','Post Created');
             return res.redirect('back');
     }catch(err){
-        console.log('error in creating post');
+        req.flash('error',err);
         return;
     }
      
@@ -80,6 +81,7 @@ module.exports.destroy= async function(req,res)
         if(post.user==req.user.id)
         {
             post.remove();
+            req.flash('success','Post Deleted');
 
             await Comment.deleteMany({post:req.params.id});
 
@@ -90,7 +92,7 @@ module.exports.destroy= async function(req,res)
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error in deleting post');
+        req.flash('error','Cannot delete post');
     }
 }
   

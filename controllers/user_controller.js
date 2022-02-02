@@ -73,13 +73,14 @@ module.exports.create= function(req,res)
 }
 module.exports.createSession= function(req,res)
 {
-    //later
+    req.flash('success', 'Logged in successfully');
     return res.redirect('/');
 }
 
 module.exports.endSession= function(req,res)
 {
     req.logout();
+    req.flash('success', 'Logged out successfully');
     return res.redirect('/');
 }
 
@@ -93,8 +94,9 @@ module.exports.post= function(req,res)
     {
         if(err)
         {
-            console.log('error in creating post');
+            req.flash('error',err);
         }
+        req.flash('success','Post Published');
         return res.redirect('/');
 
     });
@@ -107,6 +109,7 @@ module.exports.update= function(req,res)
     {
         User.findByIdAndUpdate(req.params.id, req.body,function(err,user)
         {
+            req.flash('success','User Updated');
             return res.redirect('back');
         });
     }
