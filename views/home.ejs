@@ -10,13 +10,13 @@
 <section id="feed-posts"> 
       <h3>Posts</h3>
       <% if(locals.user){ %>
-            <form action="/post/create" id="post-form" method="POST">
+            <form action="/post/create" id="new-post-form" method="POST" enctype="multipart/form-data">
                   <textarea cols="30" rows="4" placeholder="Type here...." name="post_data"></textarea>
                   <input type="submit" value="post">
             </form>
       <%}  %>
 
-      <div>
+      <div id="post-list-container">
             <ul>
             <% for(post of posts){ %>
                   <%- include('_post') %>
@@ -41,3 +41,6 @@
 <%}%>
 </section>
 </div>
+
+<script src="/js/home_post.js"></script>
+<script src="/js/home_comment.js"></script>
