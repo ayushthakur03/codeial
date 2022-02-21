@@ -1,0 +1,12 @@
+.post-cont {
+  text-align: center; }
+  .post-cont .post-img {
+    height: 40vh;
+    width: 50vw; }
+  .post-cont .post-content {
+    display: flex; }
+  .post-cont p {
+    text-align: center;
+    font-family: sans-serif; }
+  .post-cont .delete-post-button {
+    margin-bottom: -10%; }

@@ -2,25 +2,7 @@ const Post= require('../models/post');
 const Comment= require('../models/comment');
 const passport= require('passport');
 
-// module.exports.create= function(req,res)
-// {
-//     console.log('enetered create post section');
-   
-//         Post.create({
-//             content: req.body.post_data,
-//             user:req.user._id
-//         },
-//         function(err,post)
-//         {
-//             if(err)
-//             {
-//                 console.log('error in creating post');
-//             }
-//             console.log('created');
-//             return res.redirect('back');
-    
-//         });
-// }
+
 
 // module.exports.destroy= function(req,res)
 // {
@@ -56,31 +38,69 @@ const passport= require('passport');
 //     );
 // }
 
-module.exports.create= async function(req,res)
-{
-    try{
-         let post= await Post.create({
-            content: req.body.post_data,
-            user:req.user._id
-        });
+// module.exports.create= async function(req,res)
+// {
+    
+//     try{
+        
+//          Post.uploadedImg(req,res,async function(err){
+//              console.log(req.body);
+//             console.log("%%%%");
+//              let post= await Post.create({
+//                 content: req.body.post_data,
+//                 user:req.user._id,
+//                 post_img:Post.imgPath + '/' + req.file.filename
+//             });
+         
+//             console.log(post);
+//             if(req.xhr){
+//                 res.status(200).json({
+//                     data:{
+//                         post:post,
+//                     }, 
+//                     message:'post created successfully'
+//                 });
+//             }
+//          })
+ 
 
-        if(req.xhr){
-            res.status(200).json({
-                data:{
-                    post:post,
-                }, 
-                message:'post created successfully'
-            });
-        }
-
-        req.flash('success','Post Created');
-            return res.redirect('back');
-    }catch(err){
-        req.flash('error',err);
-        return;
-    }
+  
+//             return res.redirect('back');
+//     }catch(err){
+//         console.log('errrrr',err);
+//         req.flash('error',err);
+//         return;
+//     }
      
 
+// }
+
+module.exports.create= function(req,res)
+{
+    console.log('enetered create post section');
+   try{
+    Post.uploadedImg(req,res,function(err)
+    {
+        console.log(req.body);
+        Post.create({
+            content: req.body.post_data,
+            user:req.user._id,
+            post_img:Post.imgPath+'/'+req.file.filename
+        },
+        function(err,post)
+        {
+            req.flash('success','Post Created Successfully');
+            return res.redirect('back');
+    
+        });
+    })
+   }catch(err)
+   {
+       req.flash('error','Error in creating post');
+       console.log(err.responseText);
+   }
+  
+  
 }
 
 module.exports.destroy= async function(req,res)

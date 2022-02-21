@@ -12,6 +12,7 @@
       <% if(locals.user){ %>
             <form action="/post/create" id="new-post-form" method="POST" enctype="multipart/form-data">
                   <textarea cols="30" rows="4" placeholder="Type here...." name="post_data"></textarea>
+                  <input type="file" name="post_img" placeholder="Post your Image here">
                   <input type="submit" value="post">
             </form>
       <%}  %>
@@ -19,7 +20,7 @@
       <div id="post-list-container">
             <ul>
             <% for(post of posts){ %>
-                  <%- include('_post') %>
+                  <%- include('_post') -%>
            <% } %>
         
             </ul>

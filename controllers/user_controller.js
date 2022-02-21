@@ -1,5 +1,7 @@
 const User= require('../models/user');
 const Post= require('../models/post');
+const fs= require('fs');
+const path= require('path');
 
 
 
@@ -103,17 +105,47 @@ module.exports.post= function(req,res)
     
 }
 
-module.exports.update= function(req,res)
+module.exports.update= async function(req,res)
 {
     if(req.params.id== req.user.id)
     {
-        User.findByIdAndUpdate(req.params.id, req.body,function(err,user)
-        {
-            req.flash('success','User Updated');
-            return res.redirect('back');
-        });
+        try{
+
+            let user= await User.findById(req.params.id);
+ 
+            User.uploadedAvatar(req,res,function(err){
+                if(err)
+                {
+                    console.log('error',err);
+                }
+                user.name= req.body.name;
+                user.email= req.body.email;
+
+                console.log(req.file);
+    
+                if(req.file)
+                {
+                    if(user.avatar)
+                    {
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
+                    user.avatar= User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+        }catch(err){
+            req.flash('error',err);
+            return;
+        }
+        // User.findByIdAndUpdate(req.params.id, req.body,function(err,user)
+        // {
+        //     req.flash('success','User Updated');
+        //     return res.redirect('back');
+        // });
     }
     else{
+        req.flash('error','Unauthorized');
         return res.status(401).send("Unauthorized");
     }
 }
