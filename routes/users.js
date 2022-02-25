@@ -15,12 +15,21 @@ router.post('/create',userController.create);
 router.post('/create-post',userController.post);
 router.post('/update/:id',userController.update);
 
+
 //use passport as a middleware
 router.post('/create-session',passport.authenticate(
     'local',
     { 
         failureRedirect:'/user/sign_in'},
 ),userController.createSession );
+
+router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
+router.get('/auth/google/callback',passport.authenticate(
+    'google',
+    {
+        failureRedirect: '/user/sign_in'
+    },
+),userController.createSession);
 
 module.exports=router;
 
